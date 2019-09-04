@@ -12,7 +12,7 @@ import org.apache.commons.configuration2.Configuration;
 
 public class GithubWebhookEventProvider extends WebhookEventProvider<GithubPlatform, JsonRestHandler> {
 
-    private final static String GITHUB_EVENT_HEADER_KEY = "X-Github-Event";
+    private final static String GITHUB_EVENT_HEADER_KEY = "X-GitHub-Event";
 
     private final static String ENDPOINT_URI = "/github";
 
