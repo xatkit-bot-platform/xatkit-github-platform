@@ -1,18 +1,20 @@
 package com.xatkit.plugins.github.platform.io;
 
-import com.google.gson.JsonElement;
 import com.xatkit.core.platform.io.EventInstanceBuilder;
 import com.xatkit.core.platform.io.JsonEventMatcher;
-import com.xatkit.core.platform.io.JsonWebhookEventProvider;
+import com.xatkit.core.platform.io.WebhookEventProvider;
+import com.xatkit.core.server.JsonRestHandler;
+import com.xatkit.core.server.RestHandlerFactory;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.intent.EventInstance;
 import com.xatkit.plugins.github.platform.GithubPlatform;
 import org.apache.commons.configuration2.Configuration;
-import org.apache.http.Header;
 
-public class GithubWebhookEventProvider extends JsonWebhookEventProvider<GithubPlatform> {
+public class GithubWebhookEventProvider extends WebhookEventProvider<GithubPlatform, JsonRestHandler> {
 
     private final static String GITHUB_EVENT_HEADER_KEY = "X-Github-Event";
+
+    private final static String ENDPOINT_URI = "/github";
 
     private JsonEventMatcher matcher;
 
@@ -78,10 +80,18 @@ public class GithubWebhookEventProvider extends JsonWebhookEventProvider<GithubP
     }
 
     @Override
-    protected void handleParsedContent(JsonElement parsedContent, Header[] headers) {
-        EventInstance eventInstance = matcher.match(headers, parsedContent);
-        XatkitSession xatkitSession = this.xatkitCore.getOrCreateXatkitSession("github");
-        this.sendEventInstance(eventInstance, xatkitSession);
+    public String getEndpointURI() {
+        return ENDPOINT_URI;
+    }
+
+    @Override
+    protected JsonRestHandler createRestHandler() {
+        return RestHandlerFactory.createJsonRestHandler((headers, params, content) -> {
+            EventInstance eventInstance = matcher.match(headers, content);
+            XatkitSession xatkitSession = this.xatkitCore.getOrCreateXatkitSession("github");
+            this.sendEventInstance(eventInstance, xatkitSession);
+            return null;
+        });
     }
 
     @Override
