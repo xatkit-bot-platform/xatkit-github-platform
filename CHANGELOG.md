@@ -8,6 +8,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## Unreleased
 
+## [2.1.0]- 2019-10-10
+
 ### Changed
 
 - `GithubWebhookEventProvider` now uses the new intent provider hierarchy (see [xatkit-runtime/#221](https://github.com/xatkit-bot-platform/xatkit-runtime/issues/221)). This doesn't change the public API, but requires to use the latest version of [xatkit-runtime](https://github.com/xatkit-bot-platform/xatkit-runtime).
