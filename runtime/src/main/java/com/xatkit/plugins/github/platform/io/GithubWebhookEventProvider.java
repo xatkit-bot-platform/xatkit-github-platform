@@ -77,6 +77,14 @@ public class GithubWebhookEventProvider extends WebhookEventProvider<GithubPlatf
         // Push
         JsonEventMatcher.HeaderValue pushHeader = JsonEventMatcher.HeaderValue.of(GITHUB_EVENT_HEADER_KEY, "push");
         matcher.addMatchableEvent(pushHeader, JsonEventMatcher.FieldValue.EMPTY_FIELD_VALUE, "Push");
+        // Stars
+        JsonEventMatcher.HeaderValue starRequestHeader = JsonEventMatcher.HeaderValue.of(GITHUB_EVENT_HEADER_KEY,
+                "star");
+        matcher.addMatchableEvent(starRequestHeader, JsonEventMatcher.FieldValue.of("action", "created"),
+                "Star_Created");
+        matcher.addMatchableEvent(starRequestHeader, JsonEventMatcher.FieldValue.of("action", "deleted"),
+                "Star_Deleted");
+
     }
 
     @Override
