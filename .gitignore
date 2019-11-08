@@ -44,4 +44,5 @@ target
 
 # Bin scripts
 bin
-platform/.project
+
+platform/*.xmi
