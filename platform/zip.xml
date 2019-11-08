@@ -9,9 +9,6 @@
     </formats>
     <files>
         <file>
-            <source>GithubPlatform.xmi</source>
-        </file>
-        <file>
             <source>GithubPlatform.platform</source>
         </file>
     </files>

@@ -1106,7 +1106,7 @@ providers {
 		    sets parameter repository->archive_url
 		    sets parameter repository->has_downloads
 		    sets parameter repository->name
-		    sets parameter label->default
+		    sets parameter "label->default"
 		    sets parameter repository->full_name
 		    sets parameter repository->clone_url
 		    sets parameter sender->starred_url
@@ -1263,7 +1263,7 @@ providers {
 		    sets parameter repository->archive_url
 		    sets parameter repository->has_downloads
 		    sets parameter repository->name
-		    sets parameter label->default
+		    sets parameter "label->default"
 		    sets parameter repository->full_name
 		    sets parameter repository->clone_url
 		    sets parameter sender->starred_url
@@ -5865,7 +5865,7 @@ providers {
 		    sets parameter repository->private
 		    sets parameter pull_request->head->user->node_id
 		    sets parameter pull_request->base->repo->html_url
-		    sets parameter label->default
+		    sets parameter "label->default"
 		    sets parameter pull_request->milestone
 		    sets parameter pull_request->base->ref
 		    sets parameter repository->pulls_url
@@ -6270,7 +6270,7 @@ providers {
 		    sets parameter repository->private
 		    sets parameter pull_request->head->user->node_id
 		    sets parameter pull_request->base->repo->html_url
-		    sets parameter label->default
+		    sets parameter "label->default"
 		    sets parameter pull_request->milestone
 		    sets parameter pull_request->base->ref
 		    sets parameter repository->pulls_url
@@ -6381,7 +6381,7 @@ providers {
 		    sets parameter repository->archive_url
 		    sets parameter repository->has_downloads
 		    sets parameter repository->name
-		    sets parameter label->default
+		    sets parameter "label->default"
 		    sets parameter repository->full_name
 		    sets parameter repository->clone_url
 		    sets parameter sender->starred_url
@@ -6499,7 +6499,7 @@ providers {
 		    sets parameter repository->archive_url
 		    sets parameter repository->has_downloads
 		    sets parameter repository->name
-		    sets parameter label->default
+		    sets parameter "label->default"
 		    sets parameter repository->full_name
 		    sets parameter repository->clone_url
 		    sets parameter sender->starred_url
@@ -6616,7 +6616,7 @@ providers {
 		    sets parameter repository->archive_url
 		    sets parameter repository->has_downloads
 		    sets parameter repository->name
-		    sets parameter label->default
+		    sets parameter "label->default"
 		    sets parameter repository->full_name
 		    sets parameter repository->clone_url
 		    sets parameter sender->starred_url
@@ -7002,9 +7002,9 @@ providers {
 
 
 actions {
-	OpenIssue(user, repository, issueTitle, issueContent)
-	GetIssue(user, repository, issueNumber)
-	CommentIssue(issue, comment)
-	SetLabel(issue, label)
-	AssignUser(issue, username)
+	OpenIssue(user : String, repository : String, issueTitle : String, issueContent : String) : com.jcabi.github.Issue
+	GetIssue(user : String, repository : String, issueNumber : String) : com.jcabi.github.Issue
+	CommentIssue(issue : com.jcabi.github.Issue, comment : String) : com.jcabi.github.Comment
+	SetLabel(issue : com.jcabi.github.Issue, label : String) : String
+	AssignUser(issue : com.jcabi.github.Issue, username : String) : String
 }

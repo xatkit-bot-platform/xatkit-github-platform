@@ -13,7 +13,6 @@
     <artifactId>github-platform-runtime</artifactId>
 
     <properties>
-        <jcabi-github.version>0.41</jcabi-github.version>
         <httpcomponents.version>4.4.10</httpcomponents.version>
     </properties>
 
@@ -45,23 +44,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <!-- Github -->
-            <dependency>
-                <groupId>com.jcabi</groupId>
-                <artifactId>jcabi-github</artifactId>
-                <version>${jcabi-github.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.antlr</groupId>
-                        <artifactId>antlr-runtime</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <!-- Utils -->
 
