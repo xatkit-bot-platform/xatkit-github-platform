@@ -99,7 +99,7 @@ public class OpenIssue extends RuntimeAction<GithubPlatform> {
         Repo githubRepo = this.runtimePlatform.getGithubClient().repos().get(new Coordinates.Simple(user, repository));
         try {
             Issue githubIssue = githubRepo.issues().create(issueTitle, issueContent);
-            return githubIssue;
+            return new Issue.Smart(githubIssue);
         } catch (IOException e) {
             throw new XatkitException("Cannot open the Github issue, see attached exception", e);
         }

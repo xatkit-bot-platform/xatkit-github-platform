@@ -7002,8 +7002,8 @@ providers {
 
 
 actions {
-	OpenIssue(user : String, repository : String, issueTitle : String, issueContent : String) : com.jcabi.github.Issue
-	GetIssue(user : String, repository : String, issueNumber : String) : com.jcabi.github.Issue
+	OpenIssue(user : String, repository : String, issueTitle : String, issueContent : String) : com.jcabi.github.Issue.Smart
+	GetIssue(user : String, repository : String, issueNumber : String) : com.jcabi.github.Issue.Smart
 	CommentIssue(issue : com.jcabi.github.Issue, comment : String) : com.jcabi.github.Comment
 	SetLabel(issue : com.jcabi.github.Issue, label : String) : String
 	AssignUser(issue : com.jcabi.github.Issue, username : String) : String

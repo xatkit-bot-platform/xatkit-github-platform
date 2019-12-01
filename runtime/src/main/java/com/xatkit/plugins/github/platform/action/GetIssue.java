@@ -94,6 +94,6 @@ public class GetIssue extends RuntimeAction<GithubPlatform> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return issue;
+        return smartIssue;
     }
 }
