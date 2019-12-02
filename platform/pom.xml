@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.xatkit</groupId>
         <artifactId>github-platform</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>github-platform-model</artifactId>
