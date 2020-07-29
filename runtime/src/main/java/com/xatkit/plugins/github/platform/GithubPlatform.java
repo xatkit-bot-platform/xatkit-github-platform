@@ -76,7 +76,7 @@ public class GithubPlatform extends RuntimePlatform {
     /**
      * {@inheritDoc}
      * <p>
-     * This constructor tries to initialize the {@link Github} client used to access the Github API by looking for
+     * This method tries to initialize the {@link Github} client used to access the Github API by looking for
      * the username/login or oauth token in the provided {@code configuration}.
      *
      * @throws IllegalArgumentException if the provided {@code configuration} contains a {@code username} but does not
