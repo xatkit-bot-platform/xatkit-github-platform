@@ -1,6 +1,5 @@
 package com.xatkit.plugins.github.platform.io;
 
-import com.xatkit.core.platform.io.EventInstanceBuilder;
 import com.xatkit.core.platform.io.JsonEventMatcher;
 import com.xatkit.core.platform.io.WebhookEventProvider;
 import com.xatkit.core.server.JsonRestHandler;
@@ -39,8 +38,7 @@ public class GithubWebhookEventProvider extends WebhookEventProvider<GithubPlatf
     @Override
     public void start(Configuration configuration) {
         super.start(configuration);
-        matcher = new JsonEventMatcher(EventInstanceBuilder.newBuilder(this.xatkitCore.getEventDefinitionRegistry()),
-                configuration);
+        matcher = new JsonEventMatcher();
         JsonEventMatcher.HeaderValue issueHeader = JsonEventMatcher.HeaderValue.of(GITHUB_EVENT_HEADER_KEY, "issues");
         matcher.addMatchableEvent(issueHeader, JsonEventMatcher.FieldValue.of("action", "opened"), IssueOpened);
         matcher.addMatchableEvent(issueHeader, JsonEventMatcher.FieldValue.of("action", "edited"), IssueEdited);

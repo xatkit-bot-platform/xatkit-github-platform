@@ -122,7 +122,7 @@ public class GithubPlatform extends RuntimePlatform {
      */
     public @NonNull String assignUser(@NonNull StateContext context, @NonNull Issue issue, @NonNull String username) {
         AssignUser action = new AssignUser(this, context, issue, username);
-        RuntimeActionResult result = this.executeRuntimeAction(action);
+        RuntimeActionResult result = action.call();
         return (String) result.getResult();
     }
 
@@ -138,7 +138,7 @@ public class GithubPlatform extends RuntimePlatform {
     public @NonNull Comment commentIssue(@NonNull StateContext context, @NonNull Issue issue,
                                    @NonNull String commentContent) {
         CommentIssue action = new CommentIssue(this, context, issue, commentContent);
-        RuntimeActionResult result = this.executeRuntimeAction(action);
+        RuntimeActionResult result = action.call();
         return (Comment) result.getResult();
     }
 
@@ -154,7 +154,7 @@ public class GithubPlatform extends RuntimePlatform {
     public @NonNull Issue.Smart getIssue(@NonNull StateContext context, @NonNull String user, @NonNull String repository,
                                          @NonNull String issueNumber) {
         GetIssue action = new GetIssue(this, context, user, repository, issueNumber);
-        RuntimeActionResult result = this.executeRuntimeAction(action);
+        RuntimeActionResult result = action.call();
         return (Issue.Smart) result.getResult();
     }
 
@@ -172,7 +172,7 @@ public class GithubPlatform extends RuntimePlatform {
     public @NonNull Issue.Smart openIssue(@NonNull StateContext context, @NonNull String user, @NonNull String repository,
                                  @NonNull String issueTitle, @NonNull String issueContent) {
         OpenIssue action = new OpenIssue(this, context, user, repository, issueTitle, issueContent);
-        RuntimeActionResult result = this.executeRuntimeAction(action);
+        RuntimeActionResult result = action.call();
         return (Issue.Smart) result.getResult();
     }
 
@@ -189,7 +189,7 @@ public class GithubPlatform extends RuntimePlatform {
      */
     public @NonNull String setLabel(@NonNull StateContext context, @NonNull Issue issue, @NonNull String label) {
         SetLabel action = new SetLabel(this, context, issue, label);
-        RuntimeActionResult result = this.executeRuntimeAction(action);
+        RuntimeActionResult result = action.call();
         return (String) result.getResult();
     }
 
