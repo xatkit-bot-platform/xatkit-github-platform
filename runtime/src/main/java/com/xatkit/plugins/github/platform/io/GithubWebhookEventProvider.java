@@ -4,7 +4,7 @@ import com.xatkit.core.platform.io.JsonEventMatcher;
 import com.xatkit.core.platform.io.WebhookEventProvider;
 import com.xatkit.core.server.JsonRestHandler;
 import com.xatkit.core.server.RestHandlerFactory;
-import com.xatkit.core.session.XatkitSession;
+import com.xatkit.execution.StateContext;
 import com.xatkit.intent.EventDefinition;
 import com.xatkit.intent.EventInstance;
 import com.xatkit.plugins.github.platform.GithubPlatform;
@@ -112,8 +112,8 @@ public class GithubWebhookEventProvider extends WebhookEventProvider<GithubPlatf
     protected JsonRestHandler createRestHandler() {
         return RestHandlerFactory.createJsonRestHandler((headers, params, content) -> {
             EventInstance eventInstance = matcher.match(headers, content);
-            XatkitSession xatkitSession = this.xatkitCore.getOrCreateXatkitSession("github");
-            this.sendEventInstance(eventInstance, xatkitSession);
+            StateContext context  = this.xatkitCore.getOrCreateContext("github");
+            this.sendEventInstance(eventInstance, context);
             return null;
         });
     }

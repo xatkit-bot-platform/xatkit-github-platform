@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static fr.inria.atlanmod.commons.Preconditions.checkArgument;
-import static fr.inria.atlanmod.commons.Preconditions.checkNotNull;
-import static java.util.Objects.isNull;
 
 /**
  * A {@link RuntimeAction} that set the provided {@code label} to the given {@code issue}.

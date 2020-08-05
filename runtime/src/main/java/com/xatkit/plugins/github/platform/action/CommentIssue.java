@@ -11,7 +11,6 @@ import lombok.NonNull;
 import java.io.IOException;
 
 import static fr.inria.atlanmod.commons.Preconditions.checkArgument;
-import static fr.inria.atlanmod.commons.Preconditions.checkNotNull;
 
 /**
  * A {@link RuntimeAction} that creates a new comment on the provided {@link Issue}.

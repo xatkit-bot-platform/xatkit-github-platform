@@ -5,7 +5,6 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.xatkit.core.XatkitException;
 import com.xatkit.core.platform.action.RuntimeAction;
-import com.xatkit.core.session.XatkitSession;
 import com.xatkit.execution.StateContext;
 import com.xatkit.plugins.github.platform.GithubPlatform;
 import fr.inria.atlanmod.commons.log.Log;
@@ -14,7 +13,6 @@ import lombok.NonNull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
-import static fr.inria.atlanmod.commons.Preconditions.checkNotNull;
 import static java.util.Objects.isNull;
 
 /**
