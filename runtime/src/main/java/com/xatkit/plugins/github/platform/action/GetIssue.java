@@ -3,16 +3,16 @@ package com.xatkit.plugins.github.platform.action;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
-import com.xatkit.plugins.github.platform.GithubPlatform;
 import com.xatkit.core.XatkitException;
 import com.xatkit.core.platform.action.RuntimeAction;
-import com.xatkit.core.session.XatkitSession;
+import com.xatkit.execution.StateContext;
+import com.xatkit.plugins.github.platform.GithubPlatform;
 import fr.inria.atlanmod.commons.log.Log;
+import lombok.NonNull;
 
 import java.io.IOException;
 
 import static fr.inria.atlanmod.commons.Preconditions.checkArgument;
-import static fr.inria.atlanmod.commons.Preconditions.checkNotNull;
 
 /**
  * A {@link RuntimeAction} that retrieves the issue with the provided {@code number} on the given {@code repository}.
@@ -45,8 +45,8 @@ public class GetIssue extends RuntimeAction<GithubPlatform> {
      * Constructs a new {@link GetIssue} with the provided {@code runtimePlatform}, {@code session}, {@code user},
      * {@code repository}, and {@code issueNumber}.
      *
-     * @param runtimePlatform the {@link GithubPlatform} containing this action
-     * @param session         the {@link XatkitSession} associated to this action
+     * @param platform the {@link GithubPlatform} containing this action
+     * @param context         the {@link StateContext} associated to this action
      * @param user            the Github user managing the repository to retrieve the issue from
      * @param repository      the Github repository to retrieve the issue from
      * @param issueNumber     the number of the issue to retrieve
@@ -54,15 +54,9 @@ public class GetIssue extends RuntimeAction<GithubPlatform> {
      *                                  repository}, or {@code issueNumber} is {@code null}
      * @throws IllegalArgumentException if the provided {@code issueNumber} is not lesser of equal to {@code 0}
      */
-    public GetIssue(GithubPlatform runtimePlatform, XatkitSession session, String user, String repository, String
-            issueNumber) {
-        super(runtimePlatform, session);
-        checkNotNull(user, "Cannot construct a %s action with the provided Github user %s", this.getClass()
-                .getSimpleName(), user);
-        checkNotNull(repository, "Cannot construct a %s action with the provided Github repository %s", this.getClass
-                ().getSimpleName(), repository);
-        checkNotNull(issueNumber, "Cannot construct a %s action with the provided issue number %s", this.getClass()
-                .getSimpleName(), issueNumber);
+    public GetIssue(@NonNull GithubPlatform platform, @NonNull StateContext context, @NonNull String user,
+                    @NonNull String repository, @NonNull String issueNumber) {
+        super(platform, context);
         this.user = user;
         this.repository = repository;
         this.issueNumber = Integer.parseInt(issueNumber);

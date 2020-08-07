@@ -4,16 +4,16 @@ import com.jcabi.github.Comment;
 import com.jcabi.github.Issue;
 import com.xatkit.core.XatkitException;
 import com.xatkit.core.platform.action.RuntimeAction;
-import com.xatkit.core.session.XatkitSession;
+import com.xatkit.execution.StateContext;
 import com.xatkit.plugins.github.platform.GithubPlatform;
+import lombok.NonNull;
 
 import java.io.IOException;
 
 import static fr.inria.atlanmod.commons.Preconditions.checkArgument;
-import static fr.inria.atlanmod.commons.Preconditions.checkNotNull;
 
 /**
- * A {@link RuntimeAction} that retrieves the issue with the provided {@code number} on the given {@code repository}.
+ * A {@link RuntimeAction} that creates a new comment on the provided {@link Issue}.
  * <p>
  * This class relies on the {@link GithubPlatform} to access the Github API and authenticate the bot.
  * <p>
@@ -36,23 +36,20 @@ public class CommentIssue extends RuntimeAction<GithubPlatform> {
 
 
     /**
-     * Constructs a new {@link CommentIssue} with the provided {@code runtimePlatform}, {@code session}, {@code issue
-     * }, and {@code commentContent).
+     * Constructs a new {@link CommentIssue} with the provided {@code platform}, {@code context}, {@code issue}, and
+     * {@code commentContent).
      *
-     * @param runtimePlatform the {@link GithubPlatform} containing this action
-     * @param session         the {@link XatkitSession} associated to this action
-     * @param issue           the {@link Issue} to create a comment for
-     * @param commentContent  the content of the comment to post on the {@link Issue}
-     * @throws NullPointerException     if the provided {@code runtimePlatform}, {@code session}, {@code issue}, or
-     *                                  {@code commentContent} is {@code null}
+     * @param platform       the {@link GithubPlatform} containing this action
+     * @param context        the {@link StateContext} associated to this action
+     * @param issue          the {@link Issue} to create a comment for
+     * @param commentContent the content of the comment to post on the {@link Issue}
+     * @throws NullPointerException     if the provided {@code platform}, {@code context}, {@code issue}, or {@code
+     *                                  commentContent} is {@code null}
      * @throws IllegalArgumentException if the provided {@code commentContent} is empty
      */
-    public CommentIssue(GithubPlatform runtimePlatform, XatkitSession session, Issue issue, String commentContent) {
-        super(runtimePlatform, session);
-        checkNotNull(issue, "Cannot construct a %s action with the provided %s %s", this.getClass().getSimpleName(),
-                Issue.class.getSimpleName(), issue);
-        checkNotNull(commentContent, "Cannot construct a %s action with the provided comment %s",
-                this.getClass().getSimpleName(), commentContent);
+    public CommentIssue(@NonNull GithubPlatform platform, @NonNull StateContext context, @NonNull Issue issue,
+                        @NonNull String commentContent) {
+        super(platform, context);
         checkArgument(!commentContent.isEmpty(), "Cannot construct a %s action with the provided comment, expected a " +
                 "non-empty comment, found %s", this.getClass().getSimpleName(), commentContent);
         this.issue = issue;

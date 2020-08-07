@@ -1,14 +1,22 @@
 package com.xatkit.plugins.github.platform;
 
+import com.jcabi.github.Comment;
 import com.jcabi.github.Github;
+import com.jcabi.github.Issue;
 import com.jcabi.github.RtGithub;
 import com.xatkit.core.XatkitCore;
-import com.xatkit.plugins.github.platform.action.OpenIssue;
 import com.xatkit.core.XatkitException;
 import com.xatkit.core.platform.RuntimePlatform;
-import com.xatkit.core.platform.action.RuntimeAction;
+import com.xatkit.core.platform.action.RuntimeActionResult;
 import com.xatkit.core.platform.io.RuntimeEventProvider;
+import com.xatkit.execution.StateContext;
+import com.xatkit.plugins.github.platform.action.AssignUser;
+import com.xatkit.plugins.github.platform.action.CommentIssue;
+import com.xatkit.plugins.github.platform.action.GetIssue;
+import com.xatkit.plugins.github.platform.action.OpenIssue;
+import com.xatkit.plugins.github.platform.action.SetLabel;
 import fr.inria.atlanmod.commons.log.Log;
+import lombok.NonNull;
 import org.apache.commons.configuration2.Configuration;
 
 import java.io.IOException;
@@ -19,15 +27,6 @@ import static java.util.Objects.nonNull;
 
 /**
  * A {@link RuntimePlatform} class that connects and interacts with the Github API.
- * <p>
- * This runtimePlatform manages a output connection to the Github API, and provides a set of
- * {@link RuntimeAction}s to interact with the Github API:
- * <ul>
- *     <li>{@link OpenIssue}: open an issue on a given repository</li>
- * </ul>
- * <p>
- * This class is part of xatkit's core platforms, and can be used in an execution model by importing the
- * <i>GithubPlatform</i> package.
  */
 public class GithubPlatform extends RuntimePlatform {
 
@@ -75,28 +74,19 @@ public class GithubPlatform extends RuntimePlatform {
     private Github githubClient;
 
     /**
-     * Constructs a new {@link GithubPlatform} from the provided {@link XatkitCore} and {@link Configuration}.
+     * {@inheritDoc}
      * <p>
-     * This constructor tries to initialize the {@link Github} client used to access the Github API by looking for
-     * the username/login or oauth token in the provided {@link Configuration}. If no authentication credentials can
-     * be found the {@link GithubPlatform} is still initialized, but will not be able to access and manipulate the
-     * Github API.
-     * <p>
-     * {@link GithubPlatform} initialized with no credentials can still be used to construct Github-related
-     * {@link RuntimeEventProvider}s, that will work as expected. Note that if the provided
-     * {@link Configuration} defines credentials the constructed {@link GithubPlatform} will check that these
-     * credentials are valid.
+     * This method tries to initialize the {@link Github} client used to access the Github API by looking for
+     * the username/login or oauth token in the provided {@code configuration}.
      *
-     * @param xatkitCore    the {@link XatkitCore} instance associated to this runtimePlatform
-     * @param configuration the {@link Configuration} used to customize Github events and actions
-     * @throws NullPointerException     if the provided {@code xatkitCore} or {@code configuration} is {@code null}
-     * @throws IllegalArgumentException if the provided {@link Configuration} contains a {@code username} but does not
+     * @throws IllegalArgumentException if the provided {@code configuration} contains a {@code username} but does not
      *                                  contain a valid {@code password}
      * @throws XatkitException          if the provided credentials are not valid or if a network error occurred when
      *                                  accessing the Github API.
      */
-    public GithubPlatform(XatkitCore xatkitCore, Configuration configuration) {
-        super(xatkitCore, configuration);
+    @Override
+    public void start(XatkitCore xatkitCore, Configuration configuration) {
+        super.start(xatkitCore, configuration);
         String username = configuration.getString(GITHUB_USERNAME_KEY);
         if (nonNull(username)) {
             String password = configuration.getString(GITHUB_PASSWORD_KEY);
@@ -119,6 +109,88 @@ public class GithubPlatform extends RuntimePlatform {
                         ());
             }
         }
+    }
+
+    /**
+     * Assigns the provided {@code username} to the given {@code issue}.
+     *
+     * @param context  the current {@link StateContext}
+     * @param issue    the {@link Issue} to assign the user to
+     * @param username the username of the Github user to assign
+     * @return the username
+     * @throws XatkitException if an internal error occurred
+     */
+    public @NonNull String assignUser(@NonNull StateContext context, @NonNull Issue issue, @NonNull String username) {
+        AssignUser action = new AssignUser(this, context, issue, username);
+        RuntimeActionResult result = action.call();
+        return (String) result.getResult();
+    }
+
+    /**
+     * Posts a comment on the provided {@code issue}.
+     *
+     * @param context        the current {@link StateContext}
+     * @param issue          the {@link Issue} to post a comment on
+     * @param commentContent the content of the comment to post
+     * @return the posted {@link Comment}
+     * @throws XatkitException if an internal error occurred
+     */
+    public @NonNull Comment commentIssue(@NonNull StateContext context, @NonNull Issue issue,
+                                   @NonNull String commentContent) {
+        CommentIssue action = new CommentIssue(this, context, issue, commentContent);
+        RuntimeActionResult result = action.call();
+        return (Comment) result.getResult();
+    }
+
+    /**
+     * Retrieves the {@link Issue} with the provided {@code issueNumber} in the given {@code repository}.
+     *
+     * @param context     the current {@link StateContext}
+     * @param user        the Github user managing the repository to access
+     * @param repository  the name of the repository containing the issue
+     * @param issueNumber the number of the issue to retrieve
+     * @return the {@link Issue}
+     */
+    public @NonNull Issue.Smart getIssue(@NonNull StateContext context, @NonNull String user, @NonNull String repository,
+                                         @NonNull String issueNumber) {
+        GetIssue action = new GetIssue(this, context, user, repository, issueNumber);
+        RuntimeActionResult result = action.call();
+        return (Issue.Smart) result.getResult();
+    }
+
+    /**
+     * Opens an issue on the given {@code repository}.
+     *
+     * @param context      the current {@link StateContext}
+     * @param user         the Github user managing the repository to access
+     * @param repository   the name of the repository to open an issue on
+     * @param issueTitle   the title of the issue
+     * @param issueContent the content of the issue
+     * @return the {@link Issue}
+     * @throws XatkitException if an internal error occurred
+     */
+    public @NonNull Issue.Smart openIssue(@NonNull StateContext context, @NonNull String user, @NonNull String repository,
+                                 @NonNull String issueTitle, @NonNull String issueContent) {
+        OpenIssue action = new OpenIssue(this, context, user, repository, issueTitle, issueContent);
+        RuntimeActionResult result = action.call();
+        return (Issue.Smart) result.getResult();
+    }
+
+    /**
+     * Sets the provided {@code label} on the given {@code issue}.
+     * <p>
+     * This action creates a new label if the provided one doesn't match any label on the repository.
+     *
+     * @param context the current {@link StateContext}
+     * @param issue   the {@link Issue} to set a label to
+     * @param label   the label
+     * @return the label
+     * @throws XatkitException if an internal error occurred
+     */
+    public @NonNull String setLabel(@NonNull StateContext context, @NonNull Issue issue, @NonNull String label) {
+        SetLabel action = new SetLabel(this, context, issue, label);
+        RuntimeActionResult result = action.call();
+        return (String) result.getResult();
     }
 
     /**

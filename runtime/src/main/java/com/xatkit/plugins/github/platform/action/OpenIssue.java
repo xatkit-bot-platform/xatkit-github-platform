@@ -5,13 +5,14 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.xatkit.core.XatkitException;
 import com.xatkit.core.platform.action.RuntimeAction;
-import com.xatkit.core.session.XatkitSession;
+import com.xatkit.execution.StateContext;
 import com.xatkit.plugins.github.platform.GithubPlatform;
 import fr.inria.atlanmod.commons.log.Log;
+import lombok.NonNull;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 
-import static fr.inria.atlanmod.commons.Preconditions.checkNotNull;
 import static java.util.Objects.isNull;
 
 /**
@@ -54,24 +55,18 @@ public class OpenIssue extends RuntimeAction<GithubPlatform> {
      * This constructor accepts {@code null} as its {@code issueContent} parameter. In this case the opened issue
      * will have an empty content.
      *
-     * @param runtimePlatform the {@link GithubPlatform} containing this action
-     * @param session          the {@link XatkitSession} associated to this action
+     * @param platform the {@link GithubPlatform} containing this action
+     * @param context          the {@link StateContext} associated to this action
      * @param user             the Github user managing the repository to open an issue in
      * @param repository       the Github repository to open an issue in
      * @param issueTitle       the title of the issue to open
      * @param issueContent     the content of the issue to open
-     * @throws NullPointerException if the provided {@code runtimePlatform}, {@code session}, {@code user}, {@code
+     * @throws NullPointerException if the provided {@code platform}, {@code context}, {@code user}, {@code
      *                              repository}, or {@code issueTitle} is {@code null}
      */
-    public OpenIssue(GithubPlatform runtimePlatform, XatkitSession session, String user, String repository, String
-            issueTitle, String issueContent) {
-        super(runtimePlatform, session);
-        checkNotNull(user, "Cannot construct a %s action with the provided Github user %s", this.getClass()
-                .getSimpleName(), user);
-        checkNotNull(repository, "Cannot construct a %s action with the provided Github repository %s", this.getClass
-                ().getSimpleName(), repository);
-        checkNotNull(issueTitle, "Cannot construct a %s action with the provided issue title %s", this.getClass()
-                .getSimpleName(), issueTitle);
+    public OpenIssue(@NonNull GithubPlatform platform, @NonNull StateContext context, @NonNull String user,
+                     @NonNull String repository, @NonNull String issueTitle, @Nullable String issueContent) {
+        super(platform, context);
         this.user = user;
         this.repository = repository;
         this.issueTitle = issueTitle;
