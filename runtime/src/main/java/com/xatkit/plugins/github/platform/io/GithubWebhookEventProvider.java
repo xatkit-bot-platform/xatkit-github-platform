@@ -112,7 +112,7 @@ public class GithubWebhookEventProvider extends WebhookEventProvider<GithubPlatf
     protected JsonRestHandler createRestHandler() {
         return RestHandlerFactory.createJsonRestHandler((headers, params, content) -> {
             EventInstance eventInstance = matcher.match(headers, content);
-            StateContext context  = this.xatkitCore.getOrCreateContext("github");
+            StateContext context  = this.xatkitBot.getOrCreateContext("github");
             this.sendEventInstance(eventInstance, context);
             return null;
         });
