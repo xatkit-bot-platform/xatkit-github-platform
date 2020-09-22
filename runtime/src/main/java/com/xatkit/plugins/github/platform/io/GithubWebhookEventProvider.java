@@ -201,7 +201,6 @@ public class GithubWebhookEventProvider extends WebhookEventProvider<GithubPlatf
 
     private static EventDefinition createJsonEvent(String name) {
         return event(name)
-                .context("data")
                 .parameter("json")
                 .getEventDefinition();
     }
