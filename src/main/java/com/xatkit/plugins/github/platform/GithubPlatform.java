@@ -4,7 +4,7 @@ import com.jcabi.github.Comment;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.RtGithub;
-import com.xatkit.core.XatkitCore;
+import com.xatkit.core.XatkitBot;
 import com.xatkit.core.XatkitException;
 import com.xatkit.core.platform.RuntimePlatform;
 import com.xatkit.core.platform.action.RuntimeActionResult;
@@ -85,8 +85,8 @@ public class GithubPlatform extends RuntimePlatform {
      *                                  accessing the Github API.
      */
     @Override
-    public void start(XatkitCore xatkitCore, Configuration configuration) {
-        super.start(xatkitCore, configuration);
+    public void start(XatkitBot xatkitBot, Configuration configuration) {
+        super.start(xatkitBot, configuration);
         String username = configuration.getString(GITHUB_USERNAME_KEY);
         if (nonNull(username)) {
             String password = configuration.getString(GITHUB_PASSWORD_KEY);
