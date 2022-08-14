@@ -9,11 +9,19 @@ Receive events and performs action on Github from your Xatkit execution model.
 
 ## Providers
 
-The Github platform define the following providers:
+The Github platform defines the following providers:
 
 | Provider                   | Type  | Context Parameters | Description                                                  |
 | -------------------------- | ----- | ------------------ | ------------------------------------------------------------ |
 | GithubWebhookEventProvider | Event | -                  | Receive webhook events from the Github API and translate them into Xatkit-compatible events. |
+
+You can configure the GH repo (or organization) to send the events to the Xatkit GithubWebhookEventProvider 
+by [adding a new WebHook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/creating-webhooks). Use json as content type. 
+Keep in mind that the Provider expects the events to be sent to the `/github` endpoint.
+
+As an example the **ngrok** configuration of the Payload URL would look like 
+`https://4f8a-31-4-243-25.ngrok.io/github`
+
 
 ### GithubWebhookEventProvider Events
 
