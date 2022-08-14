@@ -73,5 +73,14 @@ The Github platform supports the following configuration options
 | `xatkit.github.oauth.token` | String | The OAuth token of the Github account used by Xatkit | **Mandatory** if `xatkit.github.username` and `xatkit.github.password` are not provided |
 
 
+## Installing and using the GitHub platform
 
+An example of a bot that uses the GitHub platform is available in our [repository of examples](https://github.com/xatkit-bot-platform/xatkit-examples/tree/master/GitHubBots/GithubStargazer).
 
+Make sure also to include this dependency to your pom
+
+        <dependency>
+            <groupId>com.xatkit</groupId>
+            <artifactId>github-platform</artifactId>
+            <version>3.0.1-SNAPSHOT</version>
+        </dependency>
